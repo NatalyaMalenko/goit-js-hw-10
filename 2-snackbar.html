@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Snackbar</title>
     <script type="module" crossorigin src="/goit-js-hw-10/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-10/assets/styles-C7G1eMv5.css">
+    <script type="module" crossorigin src="/goit-js-hw-10/assets/vendor-CKmg_v01.js"></script>
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-10/assets/styles-D7JmybWC.css">
   </head>
   <body>
     <main>
@@ -14,6 +15,26 @@
         <a class="back-link" href="./index.html">Go back</a>
         <h1 class="main-title">Snackbar</h1>
       </div>
+      <form class="form">
+        <label class="delay-label">
+          Delay (ms)
+          <input class="delay-input" type="number" name="delay" required />
+        </label>
+
+        <fieldset class="form-fieldset">
+          <legend class="fieldset-legend">State</legend>
+          <label class="fieldset-label">
+            <input type="radio" name="state" value="fulfilled" required />
+            Fulfilled
+          </label>
+          <label class="fieldset-label">
+            <input type="radio" name="state" value="rejected" required />
+            Rejected
+          </label>
+        </fieldset>
+
+        <button class="form-btn" type="submit">Create notification</button>
+      </form>
     </main>
   </body>
 </html>
