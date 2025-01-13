@@ -42,7 +42,6 @@ const options = {
 
 flatpickr('#datetime-picker', options);
 const todayDate = new Date();
-const timeDifference = userSelectedDate - Date.now();
 
 button.addEventListener('click', () => {
   button.disabled = true;
@@ -66,10 +65,12 @@ function startTimer(userSelectedDate) {
       timerInput.disabled = false;
       button.disabled = true;
       return;
-    } else {
-      updateTimerDisplay({ days, hours, minutes, seconds });
     }
+    // else {
+    //   updateTimerDisplay(timeLeft);
+    // }
     const timeLeft = convertMs(diff);
+    // const diff = userSelectedDate - Date.now();
     updateTimerDisplay(timeLeft);
   }, 1000);
 }
