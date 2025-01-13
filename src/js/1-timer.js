@@ -41,7 +41,7 @@ const options = {
 };
 
 flatpickr('#datetime-picker', options);
-const todayDate = new Date();
+// const todayDate = new Date();
 
 button.addEventListener('click', () => {
   button.disabled = true;
@@ -50,12 +50,21 @@ button.addEventListener('click', () => {
     startTimer(userSelectedDate);
   }
 });
+function updateTimerDisplay({ days, hours, minutes, seconds }) {
+  // timerId = setInterval(() => {
+  //   const diff = userSelectedDate - todayDate;
+  // });
+  daysSpan.textContent = addLeadingZero(days);
+  hoursSpan.textContent = addLeadingZero(hours);
+  minutesSpan.textContent = addLeadingZero(minutes);
+  secondsSpan.textContent = addLeadingZero(seconds);
+}
 function startTimer(userSelectedDate) {
   timerId = setInterval(() => {
+    const todayDate = new Date();
     const diff = userSelectedDate - todayDate;
 
-    if (diff < 1000) {
-      clearInterval(timerId);
+    if (diff <= 1000) {
       updateTimerDisplay({
         days: 0,
         hours: 0,
@@ -64,21 +73,12 @@ function startTimer(userSelectedDate) {
       });
       timerInput.disabled = false;
       button.disabled = true;
+      clearInterval(timerId);
       return;
     }
-    // else {
-    //   updateTimerDisplay(timeLeft);
-    // }
     const timeLeft = convertMs(diff);
-    // const diff = userSelectedDate - Date.now();
     updateTimerDisplay(timeLeft);
   }, 1000);
-}
-function updateTimerDisplay({ days, hours, minutes, seconds }) {
-  daysSpan.textContent = addLeadingZero(days);
-  hoursSpan.textContent = addLeadingZero(hours);
-  minutesSpan.textContent = addLeadingZero(minutes);
-  secondsSpan.textContent = addLeadingZero(seconds);
 }
 
 function addLeadingZero(value) {
