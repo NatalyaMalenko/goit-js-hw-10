@@ -30,44 +30,46 @@ const options = {
       button.disabled = true;
     } else {
       userSelectedDate = selectedDate;
+
+      iziToast.success({
+        title: 'Success',
+        message: 'Valid date selected!',
+      });
       button.disabled = false;
     }
   },
 };
-iziToast.success({
-  title: 'Success',
-  message: 'Valid date selected!',
-});
+
 flatpickr('#datetime-picker', options);
 const todayDate = new Date();
 const timeDifference = userSelectedDate - Date.now();
+
 button.addEventListener('click', () => {
   button.disabled = true;
   timerInput.disabled = true;
-
-  start();
-  timerId = setInterval(() => {
-    function updateTimerDisplay({ days, hours, minutes, seconds }) {
-      days.textContent = addLeadingZero(days);
-      hours.textContent = addLeadingZero(hours);
-      minutes.textContent = addLeadingZero(minutes);
-      seconds.textContent = addLeadingZero(seconds);
-    }
-    1000;
-    const timeLeft = convertMs(timeDifference);
-    updateTimerDisplay(timeLeft);
-  });
-
-  stop();
-  if (timeDifference < 1000) {
-    clearInterval(timerId);
-    updateTimerDisplay({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    datetimePicker.disabled = false;
-    button.disabled = true;
-    return;
+  if (userSelectedDate) {
+    startTimer(userSelectedDate);
   }
 });
-
+function startTimer(userSelectedDate) {
+  const diff = setInterval(() => {
+    if (diff < 1000) {
+      clearInterval(timerId);
+      updateTimerDisplay({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      timerInput.disabled = false;
+      button.disabled = true;
+      return;
+    }
+    const timeLeft = convertMs(diff);
+    updateTimerDisplay(timeLeft);
+  }, 1000);
+}
+function updateTimerDisplay({ days, hours, minutes, seconds }) {
+  days.elements.textContent = addLeadingZero(days);
+  hours.elements.textContent = addLeadingZero(hours);
+  minutes.elements.textContent = addLeadingZero(minutes);
+  seconds.elements.textContent = addLeadingZero(seconds);
+}
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
