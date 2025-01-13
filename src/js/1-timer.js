@@ -4,10 +4,10 @@ import iziToast from 'izitoast';
 const timerInput = document.querySelector('#datetime-picker');
 const button = document.querySelector('[data-start]');
 
-const days = document.querySelector('[data-days]');
-const hours = document.querySelector('[data-hours]');
-const minutes = document.querySelector('[data-minutes]');
-const seconds = document.querySelector('[data-seconds]');
+const daysSpan = document.querySelector('[data-days]');
+const hoursSpan = document.querySelector('[data-hours]');
+const minutesSpan = document.querySelector('[data-minutes]');
+const secondsSpan = document.querySelector('[data-seconds]');
 
 button.disabled = true;
 
@@ -55,20 +55,27 @@ function startTimer(userSelectedDate) {
   const diff = setInterval(() => {
     if (diff < 1000) {
       clearInterval(timerId);
-      updateTimerDisplay({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      updateTimerDisplay({
+        daysSpan: 0,
+        hoursSpan: 0,
+        minutesSpan: 0,
+        secondsSpan: 0,
+      });
       timerInput.disabled = false;
       button.disabled = true;
       return;
+    } else {
+      updateTimerDisplay({ daysSpan, hoursSpan, minutesSpan, secondsSpan });
     }
     const timeLeft = convertMs(diff);
     updateTimerDisplay(timeLeft);
   }, 1000);
 }
-function updateTimerDisplay({ days, hours, minutes, seconds }) {
-  days.elements.textContent = addLeadingZero(days);
-  hours.elements.textContent = addLeadingZero(hours);
-  minutes.elements.textContent = addLeadingZero(minutes);
-  seconds.elements.textContent = addLeadingZero(seconds);
+function updateTimerDisplay({ daysSpan, hoursSpan, minutesSpan, secondsSpan }) {
+  daysSpan.textContent = addLeadingZero(daysSpan);
+  hoursSpan.textContent = addLeadingZero(hoursSpan);
+  minutesSpan.textContent = addLeadingZero(minutesSpan);
+  secondsSpan.textContent = addLeadingZero(secondsSpan);
 }
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
@@ -81,17 +88,17 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  const daysSpan = Math.floor(ms / day);
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hoursSpan = Math.floor((ms % day) / hour);
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutesSpan = Math.floor(((ms % day) % hour) / minute);
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const secondsSpan = Math.floor((((ms % day) % hour) % minute) / second);
 
-  return { days, hours, minutes, seconds };
+  return { daysSpan, hoursSpan, minutesSpan, secondsSpan };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+console.log(convertMs(2000)); // {daysSpan: 0, hoursSpan: 0, minutesSpan: 0, secondsSpan: 2}
+console.log(convertMs(140000)); // {daysSpan: 0, hoursSpan: 0, minutesSpan: 2, secondsSpan: 20}
+console.log(convertMs(24140000)); // {daysSpan: 0, hoursSpan: 6 minutesSpan: 42, secondsSpan: 20}
