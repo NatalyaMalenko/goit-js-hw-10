@@ -52,31 +52,34 @@ button.addEventListener('click', () => {
   }
 });
 function startTimer(userSelectedDate) {
-  const diff = setInterval(() => {
+  timerId = setInterval(() => {
+    const diff = userSelectedDate - todayDate;
+
     if (diff < 1000) {
       clearInterval(timerId);
       updateTimerDisplay({
-        daysSpan: 0,
-        hoursSpan: 0,
-        minutesSpan: 0,
-        secondsSpan: 0,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
       });
       timerInput.disabled = false;
       button.disabled = true;
       return;
     } else {
-      updateTimerDisplay({ daysSpan, hoursSpan, minutesSpan, secondsSpan });
+      updateTimerDisplay({ days, hours, minutes, seconds });
     }
     const timeLeft = convertMs(diff);
     updateTimerDisplay(timeLeft);
   }, 1000);
 }
-function updateTimerDisplay({ daysSpan, hoursSpan, minutesSpan, secondsSpan }) {
-  daysSpan.textContent = addLeadingZero(daysSpan);
-  hoursSpan.textContent = addLeadingZero(hoursSpan);
-  minutesSpan.textContent = addLeadingZero(minutesSpan);
-  secondsSpan.textContent = addLeadingZero(secondsSpan);
+function updateTimerDisplay({ days, hours, minutes, seconds }) {
+  daysSpan.textContent = addLeadingZero(days);
+  hoursSpan.textContent = addLeadingZero(hours);
+  minutesSpan.textContent = addLeadingZero(minutes);
+  secondsSpan.textContent = addLeadingZero(seconds);
 }
+
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
@@ -88,17 +91,17 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const daysSpan = Math.floor(ms / day);
+  const days = Math.floor(ms / day);
   // Remaining hours
-  const hoursSpan = Math.floor((ms % day) / hour);
+  const hours = Math.floor((ms % day) / hour);
   // Remaining minutes
-  const minutesSpan = Math.floor(((ms % day) % hour) / minute);
+  const minutes = Math.floor(((ms % day) % hour) / minute);
   // Remaining seconds
-  const secondsSpan = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
-  return { daysSpan, hoursSpan, minutesSpan, secondsSpan };
+  return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {daysSpan: 0, hoursSpan: 0, minutesSpan: 0, secondsSpan: 2}
-console.log(convertMs(140000)); // {daysSpan: 0, hoursSpan: 0, minutesSpan: 2, secondsSpan: 20}
-console.log(convertMs(24140000)); // {daysSpan: 0, hoursSpan: 6 minutesSpan: 42, secondsSpan: 20}
+console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
