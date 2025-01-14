@@ -29,15 +29,13 @@ form.addEventListener('submit', event => {
   const selectedBtn = document.querySelector('input[name="state"]:checked');
   const delayedPromise = delay => {
     return new Promise((resolve, reject) => {
-      if (selectedBtn.value === 'fulfilled') {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (selectedBtn.value === 'fulfilled') {
           resolve(delay);
-        }, delay);
-      } else {
-        setTimeout(() => {
+        } else {
           reject(delay);
-        }, delay);
-      }
+        }
+      }, delay);
     });
   };
   delayedPromise(delay)
