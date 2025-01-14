@@ -21,7 +21,6 @@ import iziToast from 'izitoast';
 
 const form = document.querySelector('.form');
 const delayInput = document.querySelector('.delay-input');
-const radioBtn = document.querySelectorAll('.fieldset-label');
 const button = document.querySelector('.form-btn');
 
 form.addEventListener('submit', event => {
@@ -35,7 +34,9 @@ form.addEventListener('submit', event => {
           resolve(delay);
         }, delay);
       } else {
-        reject(delay);
+        setTimeout(() => {
+          reject(delay);
+        }, delay);
       }
     }, delay);
   };
