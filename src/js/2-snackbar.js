@@ -38,7 +38,7 @@ form.addEventListener('submit', event => {
           reject(delay);
         }, delay);
       }
-    }, delay);
+    });
   };
   delayedPromise(delay)
     .then(delay => {
